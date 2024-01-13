@@ -68,8 +68,9 @@ merged_df["Practices-Attended"].replace(nan_value, 0, inplace=True)
 merged_df['Amount-Paid'] = merged_df['Amount-Paid'].map(lambda x: x.lstrip('$').rstrip('aAbBcC'))
 merged_df["Amount-Paid"] = pd.to_numeric(merged_df["Amount-Paid"], errors='coerce')
 merged_df["Owed"] = (merged_df["Red Trips (not lead)"] * 30 + 10) - merged_df["Amount-Paid"]
+merged_df.loc[merged_df.Owed < 0, 'Owed'] = 0
 merged_df['Full-Name'] = merged_df['Full-Name'].str.title()
-merged_df.sort_values(by=['Full-Name'])
+merged_df = merged_df.sort_values(by=['Full-Name'])
 print(merged_df.to_string())
 
 # send to the worksheet

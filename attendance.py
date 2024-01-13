@@ -42,6 +42,7 @@ for column in columns:
 # update values starting at A1
 combined_data = [["Full-Name", "Practices-Attended"]]
 combined_data.extend(sorted([[names.title(), len(dates)] for names, dates in values.items()], key=lambda x : x[0].split(" ")[-1]))
+one_worksht.clear()
 one_worksht.update_values('A1', combined_data)
 
 
