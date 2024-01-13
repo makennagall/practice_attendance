@@ -25,5 +25,6 @@ nan_value = float("NaN")
  
 df.replace("", nan_value, inplace=True) 
 df.dropna(how='all', axis=1, inplace=True) 
+df = df.dropna()
 print(df.columns)
 print(df.to_string())
