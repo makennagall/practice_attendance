@@ -12,7 +12,6 @@ client = pygsheets.authorize(service_account_file='../attendance/key_2024')
 raw_sheet = client.open("Spring 2024 Attendance")
 
 sheet_names = [s.title for s in raw_sheet.worksheets()]
-print(sheet_names)
 
 # opens a worksheet by its name/title 
 zero_worksht = raw_sheet.worksheet("title", sheet_names[0]) 
@@ -21,10 +20,8 @@ two_worksht = raw_sheet.worksheet("title", sheet_names[2])
 
 
 data = zero_worksht.get_all_values()
-print(type(data))
 
 headers = data.pop(0)
-print(headers)
 df = pd.DataFrame(data, columns=headers)
 df.rename(columns={"Attendees\nEnter as a list separated by line returns (no bullet points)": "Attendees"}, inplace=True)
 nan_value = float("NaN") 
@@ -33,9 +30,7 @@ df.replace("", nan_value, inplace=True)
 df.dropna(how='all', axis=1, inplace=True) 
 df.dropna(how='all', axis=0, inplace=True)
 columns = df.columns.to_list()
-print(columns)
 
-print(df.to_string())
 # create dict with all of the practices everybody has attended 
 values = defaultdict(set)
 for column in columns:
@@ -62,7 +57,6 @@ for name in values.keys():
         
     date_df = date_df._append(temp, ignore_index=True)
 
-print(date_df.to_string())
 
 # send to the worksheet
 two_worksht.clear()
