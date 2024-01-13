@@ -19,9 +19,8 @@ def make_df(wksht):
     df.dropna(how='all', axis=1, inplace=True) 
     #delete rows with no values
     df.dropna(how='all', axis=0, inplace=True) 
-
-    print(df.to_string())
     return df
+
 def merge_names(df):
     #change first and last name column to be single full name column:
     df["Full-Name"] = df["First-Name"] + " " + df["Last-Name"]
