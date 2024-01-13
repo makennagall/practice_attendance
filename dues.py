@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-
 import pygsheets 
 import pandas as pd
-nan_value = float("NaN") 
+
+nan_value = float("NaN")
+client = pygsheets.authorize(service_account_file='../attendance/key_2024') 
+# opens a spreadsheet by its name/title
+raw_sheet = client.open("Dues")
+att_sheet = client.open("Spring 2024 Attendance")
+
 def make_df(wksht):
     data = wksht.get_all_values()
     headers = data.pop(0)
@@ -24,11 +29,6 @@ def merge_names(df):
     #make the full name column all lowercase
     df['Full-Name'] = df['Full-Name'].str.lower()
     return df
-
-client = pygsheets.authorize(service_account_file='../attendance/key_2024') 
-# opens a spreadsheet by its name/title
-raw_sheet = client.open("Dues")
-att_sheet = client.open("Spring 2024 Attendance")
 
 #retreives a list of the names of individual worksheets
 sheet_names = [s.title for s in raw_sheet.worksheets()]
