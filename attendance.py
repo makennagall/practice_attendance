@@ -40,15 +40,16 @@ for column in columns:
         values[name.lower()].add(column)
 
 # update values starting at A1
-combined_data = sorted([[names.title(), len(dates)] for names, dates in values.items()], key=lambda x : x[0].split(" ")[-1])
+combined_data = [["Full-Name", "Practices-Attended"]]
+combined_data.extend(sorted([[names.title(), len(dates)] for names, dates in values.items()], key=lambda x : x[0].split(" ")[-1]))
 one_worksht.update_values('A1', combined_data)
 
 
-date_df = pd.DataFrame(columns=["name"] + columns)
+date_df = pd.DataFrame(columns=["Name"] + columns)
 
 # fill new dataframe with present structure
 for name in values.keys():
-    temp = {"name" : name.title()}
+    temp = {"Name" : name.title()}
     for column in columns:
         if column in values[name]:
             temp[column] = "present"
