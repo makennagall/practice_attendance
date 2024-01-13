@@ -9,9 +9,11 @@ raw_sheet = client.open("Dues")
 att_sheet = client.open("Spring 2024 Attendance")
 
 def make_df(wksht):
+    #create pandas dataframe from worksheet and set column names:
     data = wksht.get_all_values()
     headers = data.pop(0)
-    df = pd.DataFrame(data, columns=headers) 
+    df = pd.DataFrame(data, columns=headers)
+    #replace empty boxes with nan_value 
     df.replace("", nan_value, inplace=True) 
     #delete columns with no values
     df.dropna(how='all', axis=1, inplace=True) 
@@ -62,7 +64,8 @@ merged_df["Amount-Paid"].replace(nan_value, "$0.00", inplace=True)
 merged_df["Red Trips (not lead)"].replace(nan_value, 0, inplace=True) 
 merged_df["First Trip"].replace(nan_value, "Not on Trip", inplace=True) 
 merged_df["Second Trip"].replace(nan_value, "Not on Trip", inplace=True) 
-merged_df["Practices-Attended"].replace(nan_value, 0, inplace=True) 
+merged_df["Practices-Attended"].replace(nan_value, 0, inplace=True)
+#adjust data to calculate amount owed 
 merged_df['Amount-Paid'] = merged_df['Amount-Paid'].map(lambda x: x.lstrip('$').rstrip('aAbBcC'))
 merged_df["Amount-Paid"] = pd.to_numeric(merged_df["Amount-Paid"], errors='coerce')
 merged_df["Owed"] = (merged_df["Red Trips (not lead)"] * 30 + 10) - merged_df["Amount-Paid"]
