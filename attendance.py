@@ -2,6 +2,7 @@
 
 import pygsheets 
 import pandas as pd
+from collections import defaultdict
 
 
 client = pygsheets.authorize(service_account_file='../attendance/key_2024') 
@@ -28,5 +29,12 @@ nan_value = float("NaN")
 df.replace("", nan_value, inplace=True) 
 df.dropna(how='all', axis=1, inplace=True) 
 df = df.dropna()
-print(df.columns)
-print(df.to_string())
+columns = df.columns.to_list()
+print(columns)
+
+# create dict with all of the practices everybody has attended 
+values = defaultdict(set)
+for column in columns:
+    names = df[column].to_list()
+    for name in names:
+        values[name.lower()].add(column)
