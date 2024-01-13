@@ -1,8 +1,8 @@
 import pygsheets 
 import pandas as pd
-import sys
-client_file = sys.stdin[1]
-client = pygsheets.authorize(service_account_file=client_file) 
+
+
+client = pygsheets.authorize(service_account_file='../attendance/key_2024') 
 # opens a spreadsheet by its name/title
 
 raw_sheet = client.open("Spring 2024 Attendance")
