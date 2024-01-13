@@ -69,6 +69,7 @@ merged_df['Amount-Paid'] = merged_df['Amount-Paid'].map(lambda x: x.lstrip('$').
 merged_df["Amount-Paid"] = pd.to_numeric(merged_df["Amount-Paid"], errors='coerce')
 merged_df["Owed"] = (merged_df["Red Trips (not lead)"] * 30 + 10) - merged_df["Amount-Paid"]
 merged_df['Full-Name'] = merged_df['Full-Name'].str.title()
+merged_df.sort_values(by=['Full-Name'])
 print(merged_df.to_string())
 
 # send to the worksheet
