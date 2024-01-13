@@ -52,11 +52,12 @@ for name in values.keys():
     temp = {"Name" : name.title()}
     for column in columns:
         if column in values[name]:
-            temp[column] = "present"
+            temp[column] = "Present"
         else:
-            temp[column] = "absent"
+            temp[column] = "Absent"
         
-    date_df = date_df._append(temp, ignore_index=True)
+    new = pd.DataFrame([temp], index=[len(date_df)])
+    date_df = pd.concat([date_df, new], ignore_index=True)
 
 
 # send to the worksheet
