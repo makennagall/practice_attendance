@@ -17,6 +17,7 @@ print(sheet_names)
 # opens a worksheet by its name/title 
 zero_worksht = raw_sheet.worksheet("title", sheet_names[0]) 
 one_worksht = raw_sheet.worksheet("title", sheet_names[1]) 
+two_worksht = raw_sheet.worksheet("title", sheet_names[2])
 
 
 data = zero_worksht.get_all_values()
@@ -46,3 +47,23 @@ for column in columns:
 # update values starting at A1
 combined_data = sorted([[names.title(), len(dates)] for names, dates in values.items()], key=lambda x : x[0].split(" ")[-1])
 one_worksht.update_values('A1', combined_data)
+
+
+date_df = pd.DataFrame(columns=["name"] + columns)
+
+# fill new dataframe with present structure
+for name in values.keys():
+    temp = {"name" : name.title()}
+    for column in columns:
+        if column in values[name]:
+            temp[column] = "present"
+        else:
+            temp[column] = "absent"
+        
+    date_df = date_df._append(temp, ignore_index=True)
+
+print(date_df.to_string())
+
+# send to the worksheet
+two_worksht.clear()
+two_worksht.set_dataframe(date_df, start="A1")
