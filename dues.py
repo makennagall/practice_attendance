@@ -62,7 +62,8 @@ merged_df["Red Trips (not lead)"] = pd.to_numeric(merged_df["Red Trips (not lead
 merged_df["Amount-Paid"].replace(nan_value, "$0.00", inplace=True)
 merged_df["Red Trips (not lead)"].replace(nan_value, 0, inplace=True) 
 merged_df["First Trip"].replace(nan_value, "Not on Trip", inplace=True) 
-merged_df["Second Trip"].replace(nan_value, "Not on Trip", inplace=True) 
+merged_df["Second Trip"].replace(nan_value, "Not on Trip", inplace=True)
+merged_df["Third Trip"].replace(nan_value, "Not on Trip", inplace=True)  
 merged_df["Practices-Attended"].replace(nan_value, 0, inplace=True)
 #adjust data to calculate amount owed 
 merged_df['Amount-Paid'] = merged_df['Amount-Paid'].map(lambda x: x.lstrip('$').rstrip('aAbBcC'))
@@ -75,4 +76,4 @@ print(merged_df.to_string())
 
 # send to the worksheet
 master_wksht.clear()
-master_wksht.set_dataframe(merged_df[['Full-Name', 'Owed', 'Amount-Paid', 'Practices-Attended', 'First Trip', 'Second Trip']], start="A1")
+master_wksht.set_dataframe(merged_df[['Full-Name', 'Owed', 'Amount-Paid', 'Practices-Attended', 'First Trip', 'Second Trip', 'Third Trip']], start="A1")
