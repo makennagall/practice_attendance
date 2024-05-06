@@ -64,16 +64,19 @@ merged_df["Red Trips (not lead)"].replace(nan_value, 0, inplace=True)
 merged_df["First Trip"].replace(nan_value, "Not on Trip", inplace=True) 
 merged_df["Second Trip"].replace(nan_value, "Not on Trip", inplace=True)
 merged_df["Third Trip"].replace(nan_value, "Not on Trip", inplace=True)  
+merged_df["Fourth Trip"].replace(nan_value, "Not on Trip", inplace=True) 
+merged_df["Bouldering"].replace(nan_value, "Not on Trip", inplace=True)   
 merged_df["Practices-Attended"].replace(nan_value, 0, inplace=True)
 #adjust data to calculate amount owed 
 merged_df['Amount-Paid'] = merged_df['Amount-Paid'].map(lambda x: x.lstrip('$').rstrip('aAbBcC'))
 merged_df["Amount-Paid"] = pd.to_numeric(merged_df["Amount-Paid"], errors='coerce')
-merged_df["Owed"] = (merged_df["Red Trips (not lead)"] * 30 + 10) - merged_df["Amount-Paid"]
+merged_df['Owed'] = (merged_df["Red Trips (not lead)"] * 30 + 10) - merged_df["Amount-Paid"]
 merged_df.loc[merged_df.Owed < 0, 'Owed'] = 0
 merged_df['Full-Name'] = merged_df['Full-Name'].str.title()
 merged_df = merged_df.sort_values(by=['Full-Name'])
 print(merged_df.to_string())
-
+merged_df = merged_df.rename(columns={'Owed': '=CONCATENATE("Owed: $", SUM(B2:B141))'})
+merged_df = merged_df.rename(columns={'Amount-Paid': '=CONCATENATE("Paid: $", SUM(C2:C141))'})
 # send to the worksheet
 master_wksht.clear()
-master_wksht.set_dataframe(merged_df[['Full-Name', 'Owed', 'Amount-Paid', 'Practices-Attended', 'First Trip', 'Second Trip', 'Third Trip']], start="A1")
+master_wksht.set_dataframe(merged_df[['Full-Name', '=CONCATENATE("Owed: $", SUM(B2:B141))', '=CONCATENATE("Paid: $", SUM(C2:C141))', 'Practices-Attended', 'First Trip', 'Second Trip', 'Third Trip', 'Fourth Trip', 'Bouldering']], start="A1")
